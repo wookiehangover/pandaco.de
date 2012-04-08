@@ -1,0 +1,22 @@
+{
+  "author": "",
+  "name": "vimmer",
+  "description": "a little test app",
+  "version": "0.0.0",
+  "repository": {
+    "url": ""
+  },
+  "dependencies": {
+    "union": "0.1.7",
+    "flatiron": "0.1.16",
+    "socket.io": "0.9.5"
+  },
+  "devDependencies": {
+    "api-easy": "0.3.2",
+    "vows": "0.6.1"
+  },
+  "optionalDependencies": {},
+  "engines": {
+    "node": "*"
+  }
+}
