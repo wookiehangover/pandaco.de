@@ -9,7 +9,8 @@
   "dependencies": {
     "union": "0.1.7",
     "flatiron": "0.1.16",
-    "socket.io": "0.9.5"
+    "socket.io": "0.9.5",
+    "ecstatic": "0.1.6"
   },
   "devDependencies": {
     "api-easy": "0.3.2",
