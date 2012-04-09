@@ -74,7 +74,7 @@ app.router.get('/files/:id', function( id ){
   this.res.json( memory[id] );
 });
 
-app.start(3000);
+app.start(process.env.PORT || 3000);
 
 var io = require('socket.io').listen(app.server);
 
