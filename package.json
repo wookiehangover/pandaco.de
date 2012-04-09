@@ -10,7 +10,9 @@
     "union": "0.1.7",
     "flatiron": "0.1.16",
     "socket.io": "0.9.5",
-    "ecstatic": "0.1.6"
+    "ecstatic": "0.1.6",
+    "hiredis": "0.1.14",
+    "redis": "0.7.1"
   },
   "devDependencies": {
     "api-easy": "0.3.2",

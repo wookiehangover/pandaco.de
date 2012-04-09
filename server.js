@@ -10,6 +10,7 @@ ________________________________________________________________
 var
   fs       = require('fs'),
   crypto   = require('crypto'),
+  redis    = require('redis'),
   flatiron = require('flatiron'),
   ecstatic = require('ecstatic'),
   path     = require('path'),
@@ -45,6 +46,9 @@ app.router.get('*', function() {
 });
 
 var memory = {};
+
+var client = redis.createClient();
+
 var socket;
 
 app.router.post('/files', function(){
@@ -54,14 +58,16 @@ app.router.post('/files', function(){
 
   hash.update( body.body + body.name );
   body.id = hash.digest('hex').slice(0,8);
-  memory[body.id] = body;
+
+  client.set(body.id, JSON.stringify(body), redis.print);
 
   this.res.json(body);
 });
 
 app.router.put('/files/:id', function(){
   var body = this.req.body;
-  memory[body.id] = body;
+
+  client.set(body.id, JSON.stringify(body), redis.print);
 
   if( socket !== undefined ){
     socket.emit(body.id, body);
@@ -71,7 +77,11 @@ app.router.put('/files/:id', function(){
 });
 
 app.router.get('/files/:id', function( id ){
-  this.res.json( memory[id] );
+  var _this = this;
+
+  client.get(id, function(err, reply){
+    _this.res.json( JSON.parse( reply.toString() ) );
+  });
 });
 
 app.start(process.env.PORT || 3000);
