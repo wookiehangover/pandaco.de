@@ -1,4 +1,11 @@
-<h2><%= name %></h2>
+<h2><i>watching</i><%= name %></h2>
+<% if( typeof timestamp !== "undefined" ){ %>
+<p class="timestamp">last updated <%= timestamp %></p>
+<% } %>
+
+<% if( typeof url !== "undefined" ){ %>
+<a href="<%= url %>" target="_blank" data-bypass><%= url %></a>
+<% } %>
 <pre>
   <code data-language="<%= type %>">
     <%- body%>

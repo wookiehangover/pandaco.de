@@ -6,11 +6,11 @@ define([
   "use!backbone",
 
   // Modules
-  "plugins/rainbow-custom"
+  "moment"
 
 ],
 
-function(vimmer, Backbone) {
+function(vimmer, Backbone, moment) {
 
   var app = vimmer.app;
 
@@ -44,6 +44,7 @@ function(vimmer, Backbone) {
 
       var _model = this;
       this.socket.on( this.id, function(data){
+        data.body = '\n'+data.body;
         _model.set(data);
       });
     }
@@ -60,12 +61,25 @@ function(vimmer, Backbone) {
       this.model.on('change', this.render, this);
     },
 
+    timer: 0,
+
     render: function(){
       var view = this;
+      var data = view.model.toJSON();
+
+      clearTimeout( view.timer );
+      data.timestamp = moment(data.lastModified).fromNow();
+
+      function updateTimestamp(){
+        view.$('.timestamp').html( 'Last updated '+ moment(data.lastModified).fromNow() );
+        view.timer = setTimeout( updateTimestamp, 60e3 );
+      }
 
       vimmer.fetchTemplate(this.template, function(tmpl){
-        view.$el.html( tmpl( view.model.toJSON() ) );
+        view.$el.html( tmpl( data ) );
         Rainbow.color();
+
+        view.timer = setTimeout( updateTimestamp, 30e3 );
       });
     }
 

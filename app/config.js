@@ -13,6 +13,8 @@ require.config({
     backbone: "../assets/js/libs/backbone",
     templates: "../assets/js/templates",
 
+    moment: "../assets/js/plugins/moment",
+
     // Shim Plugin
     use: "../assets/js/plugins/use"
   },
@@ -30,6 +32,10 @@ require.config({
     templates: {
       deps: ["use!underscore"],
       attach: "JST"
+    },
+
+    moment: {
+      attach: "Moment"
     }
   }
 });

@@ -205,10 +205,41 @@ td { vertical-align: top; }
 /* ==|== primary styles =====================================================
    Author: wookiehangover
    ========================================================================== */
+body { background: url(/assets/img/codepanda.png) top right no-repeat; }
 .over .dropzone { border-color: #000; background: #eaeaea; }
 .dropzone { display: block; width: 96%; border: 1px dashed #eaeaea; margin: 2% auto; }
 
 h2 { display: block; padding: 50px; }
+h2 i { font-size: 13px; font-weight: normal; font-style: normal; color: #666; padding-right: 20px; }
+
+
+h2 span {
+  -webkit-animation: slowFade 4s;
+     -moz-animation: slowFade 4s;
+      -ms-animation: slowFade 4s;
+       -o-animation: slowFade 4s;
+}
+
+@-webkit-keyframes slowFade {
+  0%   { opacity: 0.0; }
+  40%  { opacity: 0.0; }
+  100% { opacity: 1.0; }
+}
+@-moz-keyframes slowFade {
+  0%   { opacity: 0.0; }
+  40%  { opacity: 0.0; }
+  100% { opacity: 1.0; }
+}
+@-ms-keyframes slowFade {
+  0%   { opacity: 0.0; }
+  40%  { opacity: 0.0; }
+  100% { opacity: 1.0; }
+}
+@-o-keyframes slowFade {
+  0%   { opacity: 0.0; }
+  40%  { opacity: 0.0; }
+  100% { opacity: 1.0; }
+}
 
 .active h2 {
     padding: 0px 50px;
@@ -255,6 +286,8 @@ pre:before {
 pre.empty:before {
   opacity: 0.8;
 }
+
+.timestamp { float: right; color: #eaeaea; padding-right: 10px; font-size: 0.875em; }
 
 
 

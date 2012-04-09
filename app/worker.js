@@ -25,7 +25,8 @@ self.addEventListener('message', function(e){
 
       postMessage({
         body: file.target.result,
-        size: file.total
+        size: file.total,
+        lastModified: file.timeStamp
       });
     } else {
       delete file;

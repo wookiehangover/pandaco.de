@@ -8,6 +8,7 @@ define([
   // Modules
   "plugins/rainbow-custom"
 
+
 ],
 
 function(vimmer, Backbone) {
@@ -17,6 +18,7 @@ function(vimmer, Backbone) {
   var Files = vimmer.module();
 
   /* ------------------------------ Collection ------------------------------ */
+
   Files.Collection = Backbone.Collection.extend({
 
     url: '/files',
@@ -24,7 +26,6 @@ function(vimmer, Backbone) {
     stopWorkers: function(){
       this.each(function( file ){
         file.worker.terminate();
-        console.log('Worker terminated');
       });
     },
 
@@ -37,6 +38,7 @@ function(vimmer, Backbone) {
   });
 
   /* ------------------------------ Models ------------------------------ */
+
   Files.Model = Backbone.Model.extend({
 
     initialize: function( data, file ){
@@ -49,15 +51,17 @@ function(vimmer, Backbone) {
       this.worker = new Worker('/app/worker.js');
       this.worker.postMessage( this.file );
       this.worker.onmessage = this.onMessage.bind(this);
-      console.log("worker started", this.worker);
+      this.worker.addEventListener('error', function(e){
+        console.log(e);
+        alert('Sorry, but you need a browser that has File Api support in Web Workers.');
+      }, false);
     },
 
     onMessage: function(e){
-      this.save({ body: e.data.body, size: e.data.total });
+      this.save({ body: e.data.body, size: e.data.total, lastModified: e.data.lastModified });
     }
 
   });
-
 
   /* ------------------------------ Views ------------------------------ */
 
@@ -143,7 +147,7 @@ function(vimmer, Backbone) {
         .removeClass('over')
         .addClass('active');
 
-      this.$('h2').text('Edit (and save) this file with your favorite text editor.');
+      this.$('h2').text('Make some changes to the file and save them. Use your favorite editor.');
       this.processFiles( e.dataTransfer.files );
     },
 
@@ -169,9 +173,15 @@ function(vimmer, Backbone) {
       var _this = this;
 
       document.addEventListener(visibilityChange, function(){
-        return document[hidden] ?
-          _this.collection.stopWorkers():
+
+        if( document[hidden] ){
+          $('title').text('Paused');
+          _this.collection.stopWorkers();
+        } else {
+          $('title').text('CodePanda');
           _this.collection.dispatchWorkers();
+        }
+
       }, false);
     },
 

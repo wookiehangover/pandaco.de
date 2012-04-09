@@ -6,6 +6,7 @@ _/\/\/\/\/\/\/\__/\/\__/\/\__/\/\__/\/\__/\/\__/\/\____/\/\_____
 ___/\/\__/\/\______/\/\/\/\____/\/\/\/\____/\/\/\/\____/\/\/\___
 ________________________________________________________________
  */
+
 var
   fs       = require('fs'),
   crypto   = require('crypto'),
@@ -51,8 +52,8 @@ app.router.post('/files', function(){
   var body = this.req.body;
   var hash = crypto.createHash('md5');
 
-  hash.update( JSON.stringify(body) );
-  body.id = hash.digest('hex');
+  hash.update( body.body + body.name );
+  body.id = hash.digest('hex').slice(0,8);
   memory[body.id] = body;
 
   this.res.json(body);
@@ -63,7 +64,6 @@ app.router.put('/files/:id', function(){
   memory[body.id] = body;
 
   if( socket !== undefined ){
-    console.log('werw');
     socket.emit(body.id, body);
   }
 
