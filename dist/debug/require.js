@@ -12223,6 +12223,10 @@ function(vimmer, Backbone) {
 
     processFiles: function( fileList ){
       for(var i = 0, f; f = fileList[i]; i++) {
+
+        if( f.size > 100 * 1024 )
+          return alert("sorry, Code Panda can't handle files that big");
+
         this.collection.add(
           new Files.Model({
             name: f.name,
