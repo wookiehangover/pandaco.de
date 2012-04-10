@@ -21,11 +21,11 @@ app.use(flatiron.plugins.http, {
 
 });
 
-app.router.get('*', function() {
+app.router.get('*', function(){
   var _this = this;
   fs.readFile(__dirname + '/index.html', function (err, data) {
 
-    if (err) {
+    if( err ){
       _this.res.writeHead(500);
       return _this.res.end('Error loading index.html');
     }
@@ -36,14 +36,11 @@ app.router.get('*', function() {
   });
 });
 
-var memory = {};
-
 var client = redis.createClient();
 
 var socket;
 
 app.router.post('/files', function(){
-
   var body = this.req.body;
   var hash = crypto.createHash('md5');
 
