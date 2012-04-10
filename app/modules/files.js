@@ -17,6 +17,8 @@ function(vimmer, Backbone) {
 
   var Files = vimmer.module();
 
+  var blacklist = /\.(jpe?g|gif|png|pdf)/;
+
   /* ------------------------------ Collection ------------------------------ */
 
   Files.Collection = Backbone.Collection.extend({
@@ -143,12 +145,18 @@ function(vimmer, Backbone) {
       e.stopPropagation();
       e.preventDefault();
 
+      var view = this;
+
       this.$el
         .removeClass('over')
         .addClass('active');
 
-      this.$('h2').text('Make some changes to the file and save them. Use your favorite editor.');
-      this.processFiles( e.dataTransfer.files );
+      this.processFiles( e.dataTransfer.files )
+        .then(function(){
+          view.$('.dropzone h2').text('Make some changes to the file and save them. Use your favorite editor.');
+        }, function(){
+          view.$el.removeClass('active');
+        });
     },
 
     // use the page visibility API to stop workers while the page is in the
@@ -186,10 +194,20 @@ function(vimmer, Backbone) {
     },
 
     processFiles: function( fileList ){
+      var err = false;
+      var dfd = new $.Deferred();
+
       for(var i = 0, f; f = fileList[i]; i++) {
 
         if( f.size > 100 * 1024 )
-          return alert("sorry, Code Panda can't handle files that big");
+          err = 'files that big';
+
+        if( blacklist.test( f.name ) )
+          err = 'files of that type';
+
+        if( err )
+          alert("sorry, Code Panda can't handle "+ err);
+          return dfd.reject().promise();
 
         this.collection.add(
           new Files.Model({
@@ -200,6 +218,8 @@ function(vimmer, Backbone) {
           }, f )
         );
       }
+
+      return dfd.resolve().promise();
     }
   });
 
