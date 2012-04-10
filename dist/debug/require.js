@@ -12085,7 +12085,7 @@ function(vimmer, Backbone) {
 
       if( Modernizr.blobworkers ){
         this.startWorker();
-      } else if( Modernizr.fileReader ){
+      } else if( Modernizr.filereader ){
         this.poller();
       } else {
         alert("Bummer, it looks like your browser doesn't support the HTML5 File API.\nMaybe try with another browser?");
