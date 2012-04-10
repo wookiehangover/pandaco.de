@@ -68,7 +68,11 @@ app.router.get('/files/:id', function( id ){
   var _this = this;
 
   client.get(id, function(err, reply){
-    _this.res.json( JSON.parse( reply.toString() ) );
+    if( reply ) {
+      _this.res.json( JSON.parse( reply.toString() ) );
+    } else {
+      _this.res.json( {}, 404 );
+    }
   });
 });
 
