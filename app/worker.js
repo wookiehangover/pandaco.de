@@ -2,7 +2,7 @@ var reader = new FileReader();
 
 var modified_cache;
 
-self.addEventListener('message', function(e){
+addEventListener('message', function(e){
 
   var interval = 500;
 
@@ -28,8 +28,6 @@ self.addEventListener('message', function(e){
         size: file.total,
         lastModified: file.timeStamp
       });
-    } else {
-      delete file;
     }
 
     if( multiplier < 8 )
