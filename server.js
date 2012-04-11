@@ -21,19 +21,10 @@ app.use(flatiron.plugins.http, {
 
 });
 
+var index = fs.readFileSync(__dirname + '/index.html');
+
 app.router.get('*', function(){
-  var _this = this;
-  fs.readFile(__dirname + '/index.html', function (err, data) {
-
-    if( err ){
-      _this.res.writeHead(500);
-      return _this.res.end('Error loading index.html');
-    }
-
-    _this.res.writeHead(200);
-    _this.res.end(data);
-
-  });
+  this.res.html(index);
 });
 
 var client = redis.createClient();
