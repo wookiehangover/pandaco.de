@@ -24,7 +24,8 @@ app.use(flatiron.plugins.http, {
 var index = fs.readFileSync(__dirname + '/index.html');
 
 app.router.get('*', function(){
-  this.res.html(index);
+  this.res.writeHead(200);
+  this.res.end(index);
 });
 
 var client = redis.createClient();
