@@ -12,6 +12,13 @@ var
 
 var client = redis.createClient();
 
+var client_options = {};
+
+if( process.env.REDIS_PASS ){
+  client.auth(process.env.REDIS_PASS);
+  client_options = { pass: process.env.REDIS_PASS };
+}
+
 var router = new director.http.Router();
 
 /* ------------------------------ Middleware ------------------------------ */
@@ -37,7 +44,7 @@ var server = union.createServer({
     connect.cookieParser('sgodtohevoli'),
 
     connect.session({
-      store: new RedisStore(),
+      store: new RedisStore( client_options ),
       cookie: { maxAge: +new Date() + 60000 }
     }),
 
