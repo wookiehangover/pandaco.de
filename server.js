@@ -23,7 +23,7 @@ var server = union.createServer({
 
   before: [
 
-    connect.favicon('./favicon.ico'),
+    connect.favicon( __dirname + '/favicon.ico'),
 
     // conditonally loadstatic middleware with ecstatic
     function( req, res, next ){
@@ -52,7 +52,7 @@ var server = union.createServer({
 /* ------------------------------ Routes ------------------------------ */
 
 var socket;
-var index = fs.readFileSync('./index.html');
+var index = fs.readFileSync( __dirname + '/index.html');
 
 router.path(/\/files/, function(){
   // list
