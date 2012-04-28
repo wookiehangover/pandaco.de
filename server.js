@@ -24,7 +24,7 @@ var router = new director.http.Router();
 /* ------------------------------ Middleware ------------------------------ */
 
 var ec = ecstatic( __dirname );
-var static_dirs = /^\/[assets|app|dist]/;
+var static_dirs = /^\/assets|app|dist/;
 
 var server = union.createServer({
 
@@ -92,7 +92,6 @@ router.path(/\/files/, function(){
     hash.update( body.body + body.name + this.req.session.id );
     body.id = hash.digest('hex').slice(0,8);
 
-
     var multi = client.multi();
 
     multi.sadd( 'users', this.req.session.id, redis.print );
@@ -159,10 +158,13 @@ router.path(/\/files/, function(){
 
 });
 
+router.get('/\/mu-5838535f-4f3e8d3d-3d477ef2-93c7f533', function(){
+  this.res.json(200, 42);
+});
+
 router.get(/\/(.+)?/, function(req, res, next){
   this.res.html(index);
 });
-
 
 server.listen(process.env.PORT || 3000);
 
