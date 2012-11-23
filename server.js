@@ -10,7 +10,10 @@ var
   redis      = require('redis'),
   RedisStore = require('connect-redis')(connect);
 
-var client = redis.createClient();
+var port = process.env.REDIS_PORT;
+var addr = process.env.REDIS_ADDR;
+
+var client = redis.createClient(port, addr);
 
 var client_options = {};
 
@@ -18,6 +21,8 @@ if( process.env.REDIS_PASS ){
   client.auth(process.env.REDIS_PASS);
   client_options = { pass: process.env.REDIS_PASS };
 }
+
+client_options.client = client;
 
 var router = new director.http.Router();
 

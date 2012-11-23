@@ -1,8 +1,8 @@
 {
-  "author": "",
-  "name": "vimmer",
-  "description": "a little test app",
-  "version": "0.0.0",
+  "author": "wookiehangover`",
+  "name": "pandaco.de",
+  "description": "this thing with the stuff, ya know",
+  "version": "0.0.0-4",
   "repository": {
     "url": ""
   },
@@ -13,7 +13,6 @@
     "ecstatic": "0.1.6",
     "connect": "2.1.2",
     "connect-redis": "1.3.0",
-    "hiredis": "0.1.14",
     "redis": "0.7.1"
   },
   "devDependencies": {
@@ -23,5 +22,9 @@
   "optionalDependencies": {},
   "engines": {
     "node": "*"
-  }
+  },
+  "scripts": {
+    "start": "server.js"
+  },
+  "subdomain": "pandacode"
 }
